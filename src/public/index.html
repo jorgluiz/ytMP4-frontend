@@ -213,9 +213,15 @@
 
     const buscarDados = async () => {
       const img = document.querySelector('img')
+
+      const messageError = document.querySelector('.erro-video-alert-box')
+      if (messageError) {
+        document.querySelector('.erro-video-alert-box').style.display = 'none';
+      }
+
       if (img) {
         document.querySelector('img').remove()
-        document.querySelector('p').remove()
+        document.querySelector('.title-video').remove()
       }
       newDiv.innerHTML = '';
       const loadingContainer = document.getElementById('loadingContainer');
@@ -236,7 +242,6 @@
           document.querySelector('.erro-video-alert-box').style.display = 'flex';
           return
         }
-
         const thumbnailUrl = response.headers.get('X-Video-Thumbnail');
 
         // Exibir a thumbnail na página
@@ -248,7 +253,9 @@
         container.append(img)
 
         const videoTitle = response.headers.get('X-Video-Title');
-        const titleVideo = document.createElement('p').innerHTML = videoTitle
+        const titleVideo = document.createElement('p') // Criação do elemento <p>
+        titleVideo.innerHTML = videoTitle; // Define o conteúdo do título
+        titleVideo.setAttribute('class', 'title-video'); // Define a classe
         container.append(titleVideo)
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
