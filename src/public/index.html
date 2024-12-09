@@ -315,7 +315,7 @@
 
   <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
   <script>
-    const socket = io('httplocalhost:3333', {
+    const socket = io('http://localhost:3333', {
       reconnection: true,           // Habilita reconexão automática
       reconnectionAttempts: 5,      // Tenta reconectar 5 vezes
       reconnectionDelay: 1000,      // Delay entre as tentativas de reconexão (1 segundo)
@@ -334,7 +334,9 @@
       // progressText.textContent = data.percent + "%";
     })
 
-    console.log(socket)
+    socket.on('connect_error', (err) => {
+      console.error('Erro de conexão:', err);
+    });
 
     document.getElementById('formatSelector').style.display = 'none';
     const body = document.querySelector('body');
