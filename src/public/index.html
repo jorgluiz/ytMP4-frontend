@@ -483,6 +483,8 @@
           body: JSON.stringify({ urlVideo, qualityFormat, clientId }),
         });
 
+        console.log(response)
+
         if (!response.ok) {
           throw new Error('Erro no download do vídeo');
         }
