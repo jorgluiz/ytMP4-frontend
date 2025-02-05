@@ -324,7 +324,6 @@
       </div>
     </div>
   </div>
-
   <!-- Container para o círculo de carregamento -->
   <div id="loadingContainer">
     <div id="loadingCircle"></div>
@@ -332,14 +331,14 @@
 
   <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
   <script>
-    const socket = io('https://ytmp4-server-node-express-production.up.railway.app', {
+    const socket = io('https://ytmp4-server-node-express-production.up.railway.app/', {
       transports: ['websocket'],
       reconnection: true,           // Habilita reconexão automática
       reconnectionAttempts: 5,      // Tenta reconectar 5 vezes
       reconnectionDelay: 1000,      // Delay entre as tentativas de reconexão (1 segundo)
     });
 
-    // Armazena o ID do cliente ao conectar
+    // Armazena o ID do cliente ao conectar, esse id é para identificar no servidor e evitar uso global
     let clientId = null;
 
     socket.on('connect', () => {
@@ -357,6 +356,9 @@
     // Atualiza a barra de progresso ao receber dados do servidor
     socket.off('progress'); // Remove todos os listeners para evitar duplicação
     socket.on('progress', (data) => {
+      const loadingContainer = document.getElementById('loadingContainer');
+      loadingContainer.style.display = 'none';
+
       const percent = parseFloat(data.progress);
       console.log(data.progress)
       progressBar.style.width = percent + "%";
@@ -467,6 +469,9 @@
       if (isProcessing) return; // Impede a execução se já estiver em processamento
 
       isProcessing = true; // Define o estado como em processamento
+
+      const loadingContainer = document.getElementById('loadingContainer');
+      loadingContainer.style.display = 'block';
 
       try {
         const urlVideo = document.getElementById('inputData').value;
